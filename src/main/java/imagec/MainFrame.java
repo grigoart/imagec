@@ -130,7 +130,7 @@ public class MainFrame {
         //make main from visible
         mainFrame.setVisible(true);
         //</editor-fold>
-        converter = new ImageConverter(imageCanvas.getImg());
+        converter = new ImageConverter();
     }
     
     //open image file dialog
@@ -162,6 +162,7 @@ public class MainFrame {
     
     //start converting file in new thread
     private static void buttonConvertClick() {
+        converter.setImageCanvas(imageCanvas.getImg());
         btnConvert.setEnabled(false);
         btnBrowse.setEnabled(false);
         new Thread(new Runnable() {

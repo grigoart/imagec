@@ -29,6 +29,18 @@ public class ImageConverter {
     private ConvertingMode convertMode = ConvertingMode.asBlocks;
 
     /**
+     * Create instance of converter. <br>
+     * Yo need to set the input image before use.<br>
+     * Use {@link #setImageCanvas(java.awt.Image)} or
+     * {@link #setImageCanvas(java.awt.image.BufferedImage)}
+     * to set/change input image to be inverted<br>
+     * @param imageCanvas input image
+     */
+    public ImageConverter() {
+        this.imageCanvas = null;
+    }
+    
+    /**
      * Create instance and set the input image. <br>
      * Use {@link #setImageCanvas(java.awt.Image)} or
      * {@link #setImageCanvas(java.awt.image.BufferedImage)}
@@ -57,6 +69,9 @@ public class ImageConverter {
     //convert image from imageCanvas to HTML.
     //returns output HTML as StringBuilder
     private StringBuilder buildHTML() {
+        if (imageCanvas == null) {
+            return null;
+        }
         //rebuild array of colors if needed
         updateImageArray();
         String theWord = (text.isEmpty() || text == null)?"_":text;
@@ -107,6 +122,12 @@ public class ImageConverter {
      */
     public void convertAndSaveToFile(String fileName) {
             StringBuilder builtHTML = buildHTML();
+            if (builtHTML == null) {
+                //==========DEBUG==========
+                    System.out.println("Set the input image first.");
+                //=========================
+                return;
+            }
             try {
                 Files.write(Paths.get(fileName+".html"), Arrays.asList(builtHTML), Charset.forName("UTF-8"));
             }
